@@ -18,10 +18,38 @@ namespace Calories.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Person>().ToTable("People");
-            modelBuilder.Entity<Meal>().ToTable("Meals");
-            modelBuilder.Entity<Food>().ToTable("Foods");
-            modelBuilder.Entity<MealFood>().ToTable("MealFoods");
+
+            modelBuilder.Entity<Meal>()
+                .ToTable("Meals")
+                .HasKey(m => m.ID);
+
+            modelBuilder.Entity<Food>()
+                .ToTable("Foods")
+                .HasKey(f => f.ID);
+ 
+            modelBuilder.Entity<Person>()
+                .ToTable("People")
+                .HasKey(p => p.ID);
+
+            modelBuilder.Entity<Person>()
+                .HasMany(p => p.Meals)
+                .WithOne(m => m.Person)
+                .HasForeignKey(m => m.PersonID);
+ 
+
+            modelBuilder.Entity<MealFood>().ToTable("MealFoods")
+                .HasKey(mf => new { mf.FoodID, mf.MealID });
+
+            modelBuilder.Entity<MealFood>()
+                .HasOne(mf => mf.Meal)
+                .WithMany(m => m.MealFoods)
+                .HasForeignKey(mf => mf.MealID);
+
+            modelBuilder.Entity<MealFood>()
+                .HasOne(mf => mf.Food)
+                .WithMany(f => f.MealFoods)
+                .HasForeignKey(mf => mf.FoodID);
+
         }
     }
 }

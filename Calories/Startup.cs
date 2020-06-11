@@ -23,6 +23,9 @@ namespace Calories
                 options.UseSqlite(@"Data Source=C:\temp\calories.sqlite;")
                 );
 
+            services.AddScoped<CalorieContext>();
+            services.AddTransient<CalorieService>();
+
             services.AddMvc();
         }
 

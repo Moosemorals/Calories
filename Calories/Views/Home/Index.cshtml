@@ -1,5 +1,14 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<Calories.Models.Food>
 @{
+    ViewBag.Title = "Foods";
+    Layout = "/Views/Shared/_Layout.cshtml";
+
 }
+
+
+<div>
+    @foreach (Food f in Model)
+    {
+        <button value="@f.ID">@f.Name</button>
+    }
+</div>

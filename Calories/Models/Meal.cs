@@ -19,5 +19,6 @@ namespace Calories.Models
 
         [Required]
         public virtual Person Person { get; set; }
+        public long PersonID { get; set; }
     }
 }

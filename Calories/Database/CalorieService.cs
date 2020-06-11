@@ -19,5 +19,10 @@ namespace Calories.Database
         {
             return _db.Meals;
         }
+
+        public IEnumerable<Food> GetFoods()
+        {
+            return _db.Foods;
+        }
     }
 }
