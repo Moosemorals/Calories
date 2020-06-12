@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime;
 using System.Threading.Tasks;
 using Calories.Database;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -23,8 +24,18 @@ namespace Calories
                 options.UseSqlite(@"Data Source=C:\temp\calories.sqlite;")
                 );
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => {
+                    options.LoginPath = "/Auth/Login";
+                    options.LogoutPath = "/Auth/Logout";
+                    options.AccessDeniedPath = "/Auth/Denied";
+                    options.ReturnUrlParameter = "Next";
+                    options.SlidingExpiration = true;
+                });
+
             services.AddScoped<CalorieContext>();
             services.AddTransient<CalorieService>();
+            services.AddTransient<AuthService>();
 
             services.AddRazorPages()
                 .AddRazorRuntimeCompilation();
@@ -40,6 +51,9 @@ namespace Calories
             }
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,0 +1,28 @@
+﻿@model LoginVM
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Login";
+}
+
+<form asp-action="Login" asp-controller="Auth">
+
+
+    <input asp-for="Next" />
+    <dl>
+        <dt>
+            <label asp-for="Username"></label>
+        </dt>
+        <dd>
+            <input asp-for="Username" />
+        </dd>
+        <dt>
+            <label asp-for="Password"></label>
+        </dt>
+        <dd>
+            <input asp-for="Password" />
+        </dd>
+    </dl>
+
+    <button type="submit">Login</button>
+
+</form>

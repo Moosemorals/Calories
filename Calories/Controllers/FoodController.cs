@@ -5,11 +5,14 @@ using System.Threading.Tasks;
 using Calories.Database;
 using Calories.Models;
 using Calories.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Calories.Controllers
 {
+
+    [Authorize(Roles = "User")]
     public class FoodController : BaseController
     {
 
