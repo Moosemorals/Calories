@@ -1,14 +1,18 @@
-﻿@model IEnumerable<Calories.Models.Food>
+﻿@model IndexVM 
 @{
     ViewBag.Title = "Foods";
     Layout = "/Views/Shared/_Layout.cshtml";
 
 }
 
+<p>Hello, @Model.Who.Name!</p>
+
+<p>Total calories: @Model.Meals.Sum(m => m.Food.Calories)</p>
+
 <form asp-action="Eat" asp-controller="Home">
 
     <div>
-        @foreach (Food f in Model)
+        @foreach (Food f in Model.Foods)
         {
             <button name="ID" value="@f.ID">@f.Name</button>
         }

@@ -15,7 +15,8 @@ namespace Calories.Models
         public DateTimeOffset Timestamp { get; set; }
 
         [Required]
-        public virtual ICollection<MealFood> MealFoods { get; set; }
+        public virtual Food Food { get; set; }
+        public long FoodID { get; set; }
 
         [Required]
         public virtual Person Person { get; set; }

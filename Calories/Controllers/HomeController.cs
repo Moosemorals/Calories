@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Calories.Database;
 using Calories.Models;
 using Calories.ViewModels;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Calories.Controllers
@@ -19,13 +20,21 @@ namespace Calories.Controllers
             _db = DB;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View(_db.GetFoods());
+
+            Person who = await _db.GetPersonAsync(1); // TODO: People
+            return View(new IndexVM
+            {
+                Foods = _db.GetFoods(),
+                Meals = _db.GetMeals(who),
+                Who = who,
+            });
+
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Eat([Bind("ID")]EatVM model)
+        public async Task<IActionResult> Eat([Bind("ID")] EatVM model)
         {
 
             Food food = await _db.GetFoodAsync(model.ID);
@@ -34,6 +43,9 @@ namespace Calories.Controllers
                 return RedirectWithMessage("Index", "Can't find requested food");
             }
 
+            Person who = await _db.GetPersonAsync(1); // TODO: People
+
+            await _db.AddMealAsync(who, food);
 
             return RedirectWithMessage("Index", "You have eaten {0}", food.Name);
         }

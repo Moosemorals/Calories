@@ -19,8 +19,6 @@ namespace Calories.Models
 
         [Required]
         public Unit Unit { get; set; }
-
-        public virtual ICollection<MealFood> MealFoods { get; set; }
     }
 
     public enum Unit
