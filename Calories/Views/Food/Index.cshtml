@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Food>
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Manage Foods";
+}
+
+<p><a asp-action="Create">Add a new food</a></p>
+<p><a asp-action="Index" asp-controller="Home">Back to home</a></p>
+
+<table>
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(x => x.Name)</th>
+            <th>@Html.DisplayNameFor(x => x.Calories)</th>
+            <th>@Html.DisplayNameFor(x => x.Unit)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Food f in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(x => f.Name)</td>
+                <td>@Html.DisplayFor(x => f.Calories)</td>
+                <td>@Html.DisplayFor(x => f.Unit)</td>
+            </tr>
+        }
+    </tbody>
+</table>

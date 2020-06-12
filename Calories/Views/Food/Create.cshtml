@@ -1,0 +1,19 @@
+﻿@model FoodVM
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Manage Foods";
+}
+
+<form asp-controller="Food" asp-action="Create">
+
+    <dl>
+        <dt><label asp-for="Name"></label></dt>
+        <dd><input asp-for="Name" /></dd>
+        <dt><label asp-for="Calories"></label></dt>
+        <dd><input asp-for="Calories" /></dd>
+
+        <dt><label asp-for="Unit"></label></dt>
+        <dd><select asp-for="Unit" asp-items="Html.GetEnumSelectList<Unit>()"></select></dd>
+    </dl>
+    <button type="submit">Create food</button>
+</form>

@@ -5,10 +5,13 @@
 
 }
 
+<form asp-action="Eat" asp-controller="Home">
 
-<div>
-    @foreach (Food f in Model)
-    {
-        <button value="@f.ID">@f.Name</button>
-    }
-</div>
+    <div>
+        @foreach (Food f in Model)
+        {
+            <button name="ID" value="@f.ID">@f.Name</button>
+        }
+    </div>
+
+</form>

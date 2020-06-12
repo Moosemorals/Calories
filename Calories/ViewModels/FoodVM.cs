@@ -1,16 +1,14 @@
-﻿using System;
+﻿using Calories.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Calories.Models
+namespace Calories.ViewModels
 {
-    public class Food
+    public class FoodVM
     {
-        [Key]
-        public long ID { get; set; }
-
         [Required]
         public string Name { get; set; }
 
@@ -20,14 +18,6 @@ namespace Calories.Models
         [Required]
         public Unit Unit { get; set; }
 
-        public virtual ICollection<MealFood> MealFoods { get; set; }
-    }
-
-    public enum Unit
-    {
-        Unknown,
-        Each,
-        [Display(Name = "Per Gram")]
-        Gram,
+ 
     }
 }

@@ -26,6 +26,8 @@ namespace Calories
             services.AddScoped<CalorieContext>();
             services.AddTransient<CalorieService>();
 
+            services.AddRazorPages()
+                .AddRazorRuntimeCompilation();
             services.AddMvc();
         }
 
