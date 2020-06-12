@@ -9,11 +9,17 @@ namespace Calories.Database
 {
     public class CalorieContext : DbContext
     {
-        public CalorieContext(DbContextOptions<CalorieContext> options) : base(options) { }
+        public CalorieContext() : base() { }
 
         public DbSet<Person> People { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<Food> Foods { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+
+            optionsBuilder.UseSqlite(@"Data Source=C:\temp\calories.sqlite;");
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

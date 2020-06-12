@@ -8,11 +8,22 @@ namespace Calories.Database
 {
     public class AuthService
     {
+        private readonly CalorieContext _db;
 
+        public AuthService(CalorieContext DB)
+        {
+            _db = DB;
+        }
 
         public bool Authenticate(string Username, string Password)
         {
             return Username == Password;
         } 
+
+        public async Task CreateUserAsync(string username, string password)
+        {
+            _db.People.Add(new Person { Name = username });
+            await _db.SaveChangesAsync();
+        }
     }
 }

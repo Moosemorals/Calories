@@ -20,12 +20,11 @@ namespace Calories
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CalorieContext>(options =>
-                options.UseSqlite(@"Data Source=C:\temp\calories.sqlite;")
-                );
+            services.AddDbContext<CalorieContext>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => {
+                .AddCookie(options =>
+                {
                     options.LoginPath = "/Auth/Login";
                     options.LogoutPath = "/Auth/Logout";
                     options.AccessDeniedPath = "/Auth/Denied";
