@@ -18,7 +18,7 @@ namespace Calories.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
+            optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.UseSqlite(@"Data Source=C:\temp\calories.sqlite;");
         }
 

@@ -15,7 +15,7 @@ namespace Calories.Models
         public string Name { get; set; }
 
         [Required]
-        public long Calories { get; set; }
+        public double Calories { get; set; }
 
         [Required]
         public Unit Unit { get; set; }

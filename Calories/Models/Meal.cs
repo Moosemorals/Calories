@@ -15,6 +15,9 @@ namespace Calories.Models
         public DateTimeOffset Timestamp { get; set; }
 
         [Required]
+        public long Count { get; set; }
+
+        [Required]
         public virtual Food Food { get; set; }
         public long FoodID { get; set; }
 

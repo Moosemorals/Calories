@@ -4,16 +4,48 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<p>Calories in the last 24 hours: @Model.Meals.Sum(m => m.Food.Calories)</p>
+<fieldset class="eat-holder">
+    <legend>What did you eat?</legend>
+    @foreach (Food f in Model.Foods)
+    {
+        <div class="eat-item">
+            <form asp-action="Eat" asp-controller="Home" class="form-eat">
+                <input name="Count" type="number" size="3" placeholder="@f.Calories" />
+                <button name="ID" value="@f.ID">@f.Name</button>
+            </form>
+        </div>
+    }
+</fieldset>
 
-<form asp-action="Eat" asp-controller="Home"> 
-    <fieldset>
-        <legend>Eat?</legend>
-        @foreach (Food f in Model.Foods)
-        {
-            <button name="ID" value="@f.ID">@f.Name</button>
-        }
-    </fieldset>
-</form>
+<fieldset>
+    <legend>Last 24 hours</legend>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>When</th>
+                <th>Food</th>
+                <th class="text-right">Count</th>
+                <th class="text-right">Calories</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@DateTimeOffset.Now.ToString("HH:mm")</td>
+                <td>Total</td>
+                <td class="text-right">@Model.Meals.Count()</td>
+                <td class="text-right">@Model.Meals.Sum(m => m.Food.Calories * m.Count)</td>
+            </tr>
+            @foreach (Meal m in Model.Meals.OrderByDescending(m => m.Timestamp))
+            {
 
+                <tr>
+                    <td>@m.Timestamp.ToString("HH:mm")</td>
+                    <td>@m.Food.Name</td>
+                    <td class="text-right">@m.Count</td>
+                    <td class="text-right">@( m.Food.Calories * m.Count)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</fieldset>
 <p><a asp-action="Create" asp-controller="Food">Add new food</a></p>

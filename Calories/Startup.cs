@@ -31,8 +31,10 @@ namespace Calories
                     options.AccessDeniedPath = "/Auth/Denied";
                     options.ReturnUrlParameter = "Next";
                     options.SlidingExpiration = true;
+                    options.EventsType = typeof(CustomCookieAuthenticationEvents);
                 });
 
+            services.AddScoped<CustomCookieAuthenticationEvents>();
             services.AddScoped<CalorieContext>();
             services.AddTransient<CalorieService>();
             services.AddTransient<AuthService>();

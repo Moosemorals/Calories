@@ -10,5 +10,7 @@ namespace Calories.ViewModels
     {
         [Required]
         public long ID { get; set; }
+
+        public long Count { get; set; }
     }
 }

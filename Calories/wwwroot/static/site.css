@@ -13,3 +13,23 @@ body {
 h1 {
     margin: 16px 0;
 }
+
+.eat-holder {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.eat-item {
+    display: inline-flex;
+    flex-flow: row nowrap;
+    padding: 8px;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #eeddee;
+
+}

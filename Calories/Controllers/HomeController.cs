@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Calories.Lib;
+﻿using Calories.Lib;
 using Calories.Models;
 using Calories.Services;
 using Calories.ViewModels;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SQLitePCL;
+using System;
+using System.Threading.Tasks;
 
 namespace Calories.Controllers
 {
     [Authorize(Roles = Static.RoleFood)]
     public class HomeController : BaseController
-    {
-
+    { 
         private readonly CalorieService _calories;
         private readonly AuthService _auth;
 
@@ -38,7 +33,7 @@ namespace Calories.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Eat([Bind("ID")] EatVM model)
+        public async Task<IActionResult> Eat([Bind("ID, Count")] EatVM model)
         {
 
             Food food = await _calories.GetFoodAsync(model.ID);
@@ -49,7 +44,7 @@ namespace Calories.Controllers
 
             Person who = await _auth.GetCurrentPersonAsync(User);
 
-            await _calories.AddMealAsync(who, food);
+            await _calories.AddMealAsync(who, food, model.Count);
 
             return RedirectWithMessage("Index", "You have eaten {0}", food.Name);
         }

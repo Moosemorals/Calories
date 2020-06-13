@@ -63,12 +63,13 @@ namespace Calories.Services
             return model;
         }
 
-        public async Task<Meal> AddMealAsync(Person who, Food food)
+        public async Task<Meal> AddMealAsync(Person who, Food food, long count)
         {
             Meal meal = new Meal
             {
                 Food = food,
                 Person = who,
+                Count = count,
                 Timestamp = DateTimeOffset.Now,
             };
 
