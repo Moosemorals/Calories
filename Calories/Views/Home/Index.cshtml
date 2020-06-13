@@ -10,12 +10,12 @@
 <p>Total calories: @Model.Meals.Sum(m => m.Food.Calories)</p>
 
 <form asp-action="Eat" asp-controller="Home">
-
     <div>
         @foreach (Food f in Model.Foods)
         {
             <button name="ID" value="@f.ID">@f.Name</button>
         }
     </div>
-
 </form>
+
+<p><a asp-action="Create" asp-controller="Food">Add new food</a></p>
