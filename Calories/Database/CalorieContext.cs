@@ -1,5 +1,6 @@
 ﻿using Calories.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,12 @@ namespace Calories.Database
 {
     public class CalorieContext : DbContext
     {
-        public CalorieContext() : base() { }
+
+        private readonly IConfiguration _config;
+
+        public CalorieContext(IConfiguration Config) : base() {
+            _config = Config;
+        }
 
         public DbSet<Person> People { get; set; }
         public DbSet<Password> Passwords { get; set; }
@@ -19,7 +25,7 @@ namespace Calories.Database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.EnableSensitiveDataLogging();
-            optionsBuilder.UseSqlite(@"Data Source=C:\temp\calories.sqlite;");
+            optionsBuilder.UseSqlite(_config["ConnectionStrings:DefaultConnection"]);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
