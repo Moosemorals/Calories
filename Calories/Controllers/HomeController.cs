@@ -27,7 +27,6 @@ namespace Calories.Controllers
 
         public async Task<IActionResult> IndexAsync()
         {
-
             Person who = await _auth.GetCurrentPersonAsync(User);
             return View(new IndexVM
             {
@@ -35,7 +34,6 @@ namespace Calories.Controllers
                 Meals = _calories.GetMeals(who),
                 Who = who,
             });
-
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -48,7 +46,7 @@ namespace Calories.Controllers
                 return RedirectWithMessage("Index", "Can't find requested food");
             }
 
-            Person who = await _calories.GetPersonAsync(1); // TODO: People
+            Person who = await _auth.GetCurrentPersonAsync(User);
 
             await _calories.AddMealAsync(who, food);
 

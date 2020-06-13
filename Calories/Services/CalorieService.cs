@@ -75,9 +75,6 @@ namespace Calories.Services
         {
             return await _db.Foods.FindAsync(id);
         }
-        public async Task<Person> GetPersonAsync(long id)
-        {
-            return await _db.People.FindAsync(id);
-        }
+        
     }
 }
