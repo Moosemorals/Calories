@@ -2,12 +2,11 @@
 @{
     ViewBag.Title = "Foods";
     Layout = "/Views/Shared/_Layout.cshtml";
-
 }
 
 <p>Hello, @Model.Who.Name!</p>
 
-<p>Total calories: @Model.Meals.Sum(m => m.Food.Calories)</p>
+<p>Calories in the last 24 hours: @Model.Meals.Sum(m => m.Food.Calories)</p>
 
 <form asp-action="Eat" asp-controller="Home">
     <div>

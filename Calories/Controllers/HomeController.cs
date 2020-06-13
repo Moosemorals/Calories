@@ -32,7 +32,7 @@ namespace Calories.Controllers
             return View(new IndexVM
             {
                 Foods = _calories.GetFoods(),
-                Meals = _calories.GetMeals(who),
+                Meals = _calories.GetMeals(who, TimeSpan.FromDays(1)),
                 Who = who,
             });
         }

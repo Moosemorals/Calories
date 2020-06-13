@@ -26,6 +26,17 @@ namespace Calories.Services
                 .Where(m => m.PersonID == who.ID);
         }
 
+        public IEnumerable<Meal> GetMeals(Person who, TimeSpan span)
+        {
+            DateTimeOffset before = DateTimeOffset.Now.Subtract(span);
+
+            return _db.Meals
+                .Include(m => m.Food)
+                .Where(m => m.PersonID == who.ID)
+                .ToList()
+                .Where(m =>  m.Timestamp >= before);
+        }
+
         public IEnumerable<Meal> GetMeals()
         {
             return _db.Meals;
