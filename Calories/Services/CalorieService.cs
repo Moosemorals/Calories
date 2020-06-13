@@ -1,4 +1,5 @@
-﻿using Calories.Models;
+﻿using Calories.Database;
+using Calories.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 
-namespace Calories.Database
+namespace Calories.Services
 {
     public class CalorieService
     {

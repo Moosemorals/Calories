@@ -1,4 +1,5 @@
 ﻿using Calories.Database;
+using Calories.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.CommandLine;

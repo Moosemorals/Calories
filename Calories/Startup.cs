@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime;
 using System.Threading.Tasks;
 using Calories.Database;
+using Calories.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

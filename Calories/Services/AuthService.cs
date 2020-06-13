@@ -1,4 +1,5 @@
-﻿using Calories.Models;
+﻿using Calories.Database;
+using Calories.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +11,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 
-namespace Calories.Database
+namespace Calories.Services
 {
     public class AuthService
     {
