@@ -39,8 +39,6 @@ namespace Calories
             services.AddTransient<CalorieService>();
             services.AddTransient<AuthService>();
 
-            services.AddRazorPages();
-
             services.AddMvc();
         }
 
