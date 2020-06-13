@@ -2,31 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Calories.Lib;
 using Calories.Models;
 using Calories.Services;
 using Calories.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SQLitePCL;
 
 namespace Calories.Controllers
 {
-
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = Static.RoleFood)]
     public class FoodController : BaseController
     {
+        private readonly AuthService _auth;
+        private readonly CalorieService _calories;
 
-        private readonly CalorieService _db;
-
-        public FoodController(CalorieService DB)
+        public FoodController(AuthService auth, CalorieService calories)
         {
-            _db = DB;
+            _auth = auth;
+            _calories = calories;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-            return View(_db.GetFoods());
+            return View(_calories.GetFoods());
         }
 
         [HttpGet]
@@ -36,14 +38,16 @@ namespace Calories.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync([Bind("Name", "Calories", "Unit")]FoodVM model)
+        public async Task<ActionResult> CreateAsync([Bind("Name", "Calories", "Unit")] FoodVM model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            Food created = await _db.AddFoodAsync(model.Name, model.Calories, model.Unit);
+            Person who = await _auth.GetCurrentPersonAsync(User);
+
+            Food created = await _calories.AddFoodAsync(who, model.Name, model.Calories, model.Unit);
 
             return RedirectWithMessage(nameof(Index), "Food {0} was created", created.Name);
         }

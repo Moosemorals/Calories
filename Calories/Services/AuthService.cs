@@ -1,4 +1,5 @@
 ﻿using Calories.Database;
+using Calories.Lib;
 using Calories.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -6,9 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace Calories.Services
@@ -40,19 +39,12 @@ namespace Calories.Services
             await _db.SaveChangesAsync();
         }
 
-        public async Task<Person> GetPersonAsync(string name)
-        {
-            return await _db.People
-                .Include(p => p.Password)
-                .FirstOrDefaultAsync(p => p.Name == name);
-        }
-
         public async Task LoginFromWebAsync(HttpContext context, Person who)
         {
             var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, who.Name),
-                        new Claim(ClaimTypes.Role, "User"),
+                        new Claim(ClaimTypes.Role, Static.RoleFood),
                     };
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -72,16 +64,21 @@ namespace Calories.Services
             await context.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity),
-                authProperties);
+                authProperties); 
+        }
 
-
+        public async Task<Person> GetPersonAsync(string name)
+        {
+            return await _db.People
+                .Include(p => p.Password)
+                .Include(p => p.Foods)
+                .Include(p => p.Meals)
+                .FirstOrDefaultAsync(p => p.Name == name);
         }
 
         public async Task<Person> GetCurrentPersonAsync(ClaimsPrincipal User)
         {
-
             return await GetPersonAsync(User.FindFirstValue(ClaimTypes.Name));
-
         }
     }
 }

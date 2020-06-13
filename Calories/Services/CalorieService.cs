@@ -36,14 +36,16 @@ namespace Calories.Services
             return _db.Foods;
         }
 
-        public async Task<Food> AddFoodAsync(string Name, long calories, Unit unit)
+        public async Task<Food> AddFoodAsync(Person who, string name, long calories, Unit unit)
         {
             Food model = new Food
             {
+                Owner = who,
                 Calories = calories,
-                Name = Name,
+                Name = name,
                 Unit = unit,
             };
+
             _db.Foods.Add(model);
 
             await _db.SaveChangesAsync();

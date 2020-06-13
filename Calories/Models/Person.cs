@@ -19,6 +19,9 @@ namespace Calories.Models
         public virtual Password Password {get;set;}
 
         [Required]
+        public virtual ICollection<Food> Foods { get; set; }
+
+        [Required]
         public virtual ICollection<Meal> Meals { get; set; }
     }
 }

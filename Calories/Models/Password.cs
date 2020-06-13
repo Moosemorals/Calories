@@ -21,8 +21,8 @@ namespace Calories.Models
         [Required]
         public int Rounds { get; set; }
 
-        [Required]
         public Person Person { get; set; }
+        [Required]
         public long PersonID { get; set; }
 
         // Based on https://stackoverflow.com/a/3745973/195833

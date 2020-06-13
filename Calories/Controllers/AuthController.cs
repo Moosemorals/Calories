@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Calories.Lib;
 using Calories.Models;
 using Calories.Services;
 using Calories.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Calories.Controllers
@@ -45,13 +47,14 @@ namespace Calories.Controllers
                     else
                     {
                         return Redirect(model.Next);
-                    } 
-                } 
+                    }
+                }
             }
 
             return View(model);
         }
 
+        [Authorize(Roles = Static.RoleFood)]
         public async Task<IActionResult> LogoutAsync()
         {
             await HttpContext.SignOutAsync(

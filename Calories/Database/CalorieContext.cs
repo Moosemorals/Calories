@@ -46,6 +46,11 @@ namespace Calories.Database
                 .HasForeignKey<Password>(p => p.PersonID);
 
             modelBuilder.Entity<Person>()
+                .HasMany(p => p.Foods)
+                .WithOne(f => f.Owner)
+                .HasForeignKey(f => f.OwnerID);
+
+            modelBuilder.Entity<Person>()
                 .HasMany(p => p.Meals)
                 .WithOne(m => m.Person)
                 .HasForeignKey(m => m.PersonID);

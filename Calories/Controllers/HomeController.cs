@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Calories.Lib;
 using Calories.Models;
 using Calories.Services;
 using Calories.ViewModels;
@@ -12,7 +13,7 @@ using SQLitePCL;
 
 namespace Calories.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = Static.RoleFood)]
     public class HomeController : BaseController
     {
 

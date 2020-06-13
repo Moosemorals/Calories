@@ -8,5 +8,7 @@ namespace Calories.Lib
     public class Static
     {
         public const string KeyMessages = "caloires.lib.messages";
+
+        public const string RoleFood = "Role - Food";
     }
 }

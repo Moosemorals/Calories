@@ -19,11 +19,16 @@ namespace Calories.Models
 
         [Required]
         public Unit Unit { get; set; }
+
+        public virtual Person Owner { get; set; }
+        [Required]
+        public long OwnerID { get; set; }
     }
 
     public enum Unit
     {
         Unknown,
+        Packet,
         Each,
         [Display(Name = "Per Gram")]
         Gram,

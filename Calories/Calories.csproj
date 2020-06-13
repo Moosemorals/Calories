@@ -6,12 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Auth\Deined.cshtml" />
+    <Content Remove="Views\Auth\Denied.cshtml" />
     <Content Remove="Views\Auth\Login.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Auth\Deined.cshtml" />
+    <None Include="Views\Auth\Denied.cshtml" />
     <None Include="Views\Auth\Login.cshtml" />
   </ItemGroup>
 
