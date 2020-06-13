@@ -13,7 +13,7 @@ deploy:
 > fi
 > dotnet publish --output target/Calories --configuration Release --runtime linux-x64
 > tar -czf target/Calories.tgz -C target Calories
-> scp target/Blog.tgz calories@nuit:/home/calories
+> scp target/Calories.tgz calories@nuit:/home/calories
 > ssh calories@nuit /home/calories/bin/deploy.sh
 .PHONY: deploy
 
