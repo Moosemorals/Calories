@@ -1,6 +1,7 @@
 ﻿using Calories.Database;
 using Calories.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
@@ -22,7 +23,13 @@ namespace Calories.Admin
 
             addUser.Handler = CommandHandler.Create<string, string>(async (username, password) =>
             {
-                CalorieContext db = new CalorieContext();
+
+                IConfiguration config = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json", true, true)
+                    .AddJsonFile("secrets.json", true, true)
+                    .Build();
+
+                CalorieContext db = new CalorieContext(config);
 
                 AuthService auth = new AuthService(db);
 
