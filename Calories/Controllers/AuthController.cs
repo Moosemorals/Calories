@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Calories.Database;
+using Calories.Models;
 using Calories.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -29,46 +30,26 @@ namespace Calories.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginAsync([Bind(nameof(LoginVM.Username), nameof(LoginVM.Password))] LoginVM model)
         {
-            if (ModelState.IsValid && _auth.Authenticate(model.Username, model.Password))
+            if (ModelState.IsValid)
             {
-                var claims = new List<Claim>
+                Person who = await _auth.AuthenticateAsync(model.Username, model.Password);
+
+                if (who != null)
+                {
+                    await _auth.LoginFromWebAsync(HttpContext, who);
+                    Message("Welcome back {0}", who.Name);
+                    if (string.IsNullOrEmpty(model.Next))
                     {
-                        new Claim(ClaimTypes.Name, model.Username),
-                        new Claim(ClaimTypes.Role, "User"),
-                    };
-
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                var authProperties = new AuthenticationProperties
-                {
-                    AllowRefresh = true,
-
-                    IsPersistent = true,
-                    IssuedUtc = DateTimeOffset.Now,
-
-                    //RedirectUri = <string>
-                    // The full path or absolute URI to be used as an http 
-                    // redirect response value.
-                };
-
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity),
-                    authProperties);
-
-                Message("Welcome back {0}", model.Username);
-
-                if (string.IsNullOrEmpty(model.Next))
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    return Redirect(model.Next);
-                }
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        return Redirect(model.Next);
+                    } 
+                } 
             }
 
-                return View(model);
+            return View(model);
         }
 
         public async Task<IActionResult> LogoutAsync()

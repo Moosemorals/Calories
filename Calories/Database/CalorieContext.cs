@@ -12,6 +12,7 @@ namespace Calories.Database
         public CalorieContext() : base() { }
 
         public DbSet<Person> People { get; set; }
+        public DbSet<Password> Passwords { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<Food> Foods { get; set; }
 
@@ -23,7 +24,6 @@ namespace Calories.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<Food>()
                 .ToTable("Foods")
                 .HasKey(f => f.ID);
@@ -36,14 +36,19 @@ namespace Calories.Database
                .ToTable("Meals")
                .HasKey(m => m.ID);
 
+            modelBuilder.Entity<Password>()
+                .ToTable("Passwords")
+                .HasKey(p => p.ID);
+
+            modelBuilder.Entity<Person>()
+                .HasOne(p => p.Password)
+                .WithOne(p => p.Person)
+                .HasForeignKey<Password>(p => p.PersonID);
+
             modelBuilder.Entity<Person>()
                 .HasMany(p => p.Meals)
                 .WithOne(m => m.Person)
                 .HasForeignKey(m => m.PersonID);
-
-            modelBuilder.Entity<Person>()
-                .HasData(new Person { ID = 1, Name = "Test" });
-
         }
     }
 }

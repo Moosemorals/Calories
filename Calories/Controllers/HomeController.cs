@@ -8,6 +8,7 @@ using Calories.ViewModels;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SQLitePCL;
 
 namespace Calories.Controllers
 {
@@ -15,21 +16,23 @@ namespace Calories.Controllers
     public class HomeController : BaseController
     {
 
-        private readonly CalorieService _db;
+        private readonly CalorieService _calories;
+        private readonly AuthService _auth;
 
-        public HomeController(CalorieService DB)
+        public HomeController(AuthService auth, CalorieService calories)
         {
-            _db = DB;
+            _auth = auth;
+            _calories = calories;
         }
 
         public async Task<IActionResult> IndexAsync()
         {
 
-            Person who = await _db.GetPersonAsync(1); // TODO: People
+            Person who = await _auth.GetCurrentPersonAsync(User);
             return View(new IndexVM
             {
-                Foods = _db.GetFoods(),
-                Meals = _db.GetMeals(who),
+                Foods = _calories.GetFoods(),
+                Meals = _calories.GetMeals(who),
                 Who = who,
             });
 
@@ -39,15 +42,15 @@ namespace Calories.Controllers
         public async Task<IActionResult> Eat([Bind("ID")] EatVM model)
         {
 
-            Food food = await _db.GetFoodAsync(model.ID);
+            Food food = await _calories.GetFoodAsync(model.ID);
             if (food == null)
             {
                 return RedirectWithMessage("Index", "Can't find requested food");
             }
 
-            Person who = await _db.GetPersonAsync(1); // TODO: People
+            Person who = await _calories.GetPersonAsync(1); // TODO: People
 
-            await _db.AddMealAsync(who, food);
+            await _calories.AddMealAsync(who, food);
 
             return RedirectWithMessage("Index", "You have eaten {0}", food.Name);
         }

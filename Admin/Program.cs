@@ -27,7 +27,7 @@ namespace Calories.Admin
 
                 await auth.CreateUserAsync(username, password);
 
-                Console.WriteLine("USer {0} created", username);
+                Console.WriteLine("User {0} created", username);
 
             });
 
