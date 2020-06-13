@@ -1,20 +1,19 @@
-﻿@model IndexVM 
+﻿@model IndexVM
 @{
-    ViewBag.Title = "Foods";
+    ViewBag.Title = "Calories";
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<p>Hello, @Model.Who.Name!</p>
-
 <p>Calories in the last 24 hours: @Model.Meals.Sum(m => m.Food.Calories)</p>
 
-<form asp-action="Eat" asp-controller="Home">
-    <div>
+<form asp-action="Eat" asp-controller="Home"> 
+    <fieldset>
+        <legend>Eat?</legend>
         @foreach (Food f in Model.Foods)
         {
             <button name="ID" value="@f.ID">@f.Name</button>
         }
-    </div>
+    </fieldset>
 </form>
 
 <p><a asp-action="Create" asp-controller="Food">Add new food</a></p>

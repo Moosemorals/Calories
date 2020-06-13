@@ -55,6 +55,8 @@ namespace Calories
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseStaticFiles();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
