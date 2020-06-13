@@ -17,8 +17,15 @@ namespace Calories
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+
+        private readonly IWebHostEnvironment _env;
+
+        public Startup(IWebHostEnvironment env)
+        {
+            _env = env;
+        }
+
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<CalorieContext>();
@@ -39,7 +46,14 @@ namespace Calories
             services.AddTransient<CalorieService>();
             services.AddTransient<AuthService>();
 
-            services.AddMvc();
+            if (_env.IsDevelopment())
+            {
+                services.AddControllersWithViews()
+                    .AddRazorRuntimeCompilation();
+            } else
+            {
+                services.AddControllersWithViews();
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
