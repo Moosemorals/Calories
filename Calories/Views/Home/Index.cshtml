@@ -6,7 +6,7 @@
 
 <fieldset class="eat-holder">
     <legend>What did you eat?</legend>
-    @foreach (Food f in Model.Foods)
+    @foreach (Food f in Model.Foods.OrderByDescending(f => Model.Meals.Count(m => m.FoodID == f.ID)))
     {
         <div class="eat-item">
             <form asp-action="Eat" asp-controller="Home" class="form-eat">
@@ -26,6 +26,7 @@
                 <th>Food</th>
                 <th class="text-right">Count</th>
                 <th class="text-right">Calories</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -37,12 +38,12 @@
             </tr>
             @foreach (Meal m in Model.Meals.OrderByDescending(m => m.Timestamp))
             {
-
                 <tr>
                     <td>@m.Timestamp.ToString("HH:mm")</td>
                     <td>@m.Food.Name</td>
                     <td class="text-right">@m.Count</td>
                     <td class="text-right">@( m.Food.Calories * m.Count)</td>
+                    <td><a asp-action="Delete" asp-route-id="@m.ID">Delete meal</a></td>
                 </tr>
             }
         </tbody>

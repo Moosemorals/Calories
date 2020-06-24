@@ -103,5 +103,16 @@ namespace Calories.Services
 
             await _db.SaveChangesAsync();
         }
+
+        public async Task<Meal> GetMealAsync(long id)
+        {
+            return await _db.Meals.FindAsync(id);
+        }
+
+        internal async Task DeleteMeal(Meal meal)
+        {
+            _db.Meals.Remove(meal);
+            await _db.SaveChangesAsync();
+        }
     }
 }

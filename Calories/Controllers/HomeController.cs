@@ -52,5 +52,49 @@ namespace Calories.Controllers
 
             return RedirectWithMessage("Index", "You have eaten {0} {1}{2}", model.Count, food.Name, model.Count == 1 ? "": "s");
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(long? id)
+        {
+            if (id == null)
+            {
+                return RedirectWithMessage("Index", "Missing ID parameter");
+            }
+
+            Meal meal = await _calories.GetMealAsync(id.Value);
+            if (meal == null)
+            {
+                return RedirectWithMessage("Index", "Can't find meal with id {0}", id.Value);
+            }
+
+            return View();
+        }
+
+        [HttpPost, ValidateAntiForgeryToken, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(long? id)
+        {
+            if (id == null)
+            {
+                return RedirectWithMessage("Index", "Missing ID parameter");
+            }
+
+            Meal meal = await _calories.GetMealAsync(id.Value);
+            if (meal == null)
+            {
+                return RedirectWithMessage("Index", "Can't find meal with id {0}", id.Value);
+            }
+
+            long count = meal.Count;
+            string foodName = meal.Food.Name;
+            Unit foodUnit = meal.Food.Unit;
+
+            await _calories.DeleteMeal(meal);
+
+            return RedirectWithMessage("Index", "Your meal of {0} {1} of {2} has been deleted", count, foodUnit, foodName);
+        }
+
+
+
     }
 }

@@ -1,0 +1,15 @@
+﻿@model Meal
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Delete Meal";
+}
+
+<h2>Are you sure you want to delete this meal?</h2>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="ID" />
+    <button type="submit">Delete</button>
+    <a asp-action="Index">Cancel</a>
+</form>
+
+
