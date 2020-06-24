@@ -1,4 +1,9 @@
-﻿html {
+﻿:root {
+    --highlight-dark: #cfd6e8;
+    --highlight-light: #e3e3ff;
+}
+
+html {
     box-sizing: border-box;
 }
 
@@ -6,12 +11,29 @@
     box-sizing: inherit;
 }
 
+
 body {
     font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+    color: black;
+    background-color: aliceblue;
 }
 
 h1 {
     margin: 16px 0;
+}
+
+button, input {
+    font-family: inherit;
+    font-size: 100%;
+    border-radius: 3px;
+}
+
+button, input, fieldset { 
+    border: 1px solid var(--highlight-light);
+}
+
+button {
+    background-color: var(--highlight-dark);
 }
 
 .eat-holder {
@@ -34,5 +56,9 @@ h1 {
 }
 
 .table-striped tbody tr:nth-child(odd) {
-    background-color: #eeddee;
+    background-color: var(--highlight-light);
+}
+
+.table-striped tbody tr:nth-child(1) {
+    background-color: var(--highlight-dark);
 }
