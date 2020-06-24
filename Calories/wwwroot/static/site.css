@@ -44,7 +44,7 @@ button {
 .eat-item {
     display: inline-flex;
     flex-flow: row nowrap;
-    padding: 8px;
+    padding: 4px;
 }
 
 .eat-count {
