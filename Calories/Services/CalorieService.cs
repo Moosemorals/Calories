@@ -42,12 +42,17 @@ namespace Calories.Services
             return _db.Meals;
         }
 
+        public async Task<bool> FoodExistsAsync(string name)
+        {
+            return await _db.Foods.AnyAsync(f => f.Name == name);
+        }
+
         public IEnumerable<Food> GetFoods()
         {
             return _db.Foods;
         }
 
-        public async Task<Food> AddFoodAsync(Person who, string name, long calories, Unit unit)
+        public async Task<Food> AddFoodAsync(Person who, string name, double calories, Unit unit)
         {
             Food model = new Food
             {
@@ -89,6 +94,14 @@ namespace Calories.Services
         {
             return await _db.Foods.FindAsync(id);
         }
-        
+
+        public async Task EditFoodAsync(Food current, string name, double calories, Unit unit)
+        {
+            current.Name = name;
+            current.Calories = calories;
+            current.Unit = unit;
+
+            await _db.SaveChangesAsync();
+        }
     }
 }

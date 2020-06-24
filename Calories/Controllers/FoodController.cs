@@ -40,6 +40,11 @@ namespace Calories.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateAsync([Bind("Name", "Calories", "Unit")] FoodVM model)
         {
+            if (await _calories.FoodExistsAsync(model.Name))
+            {
+                ModelState.AddModelError(nameof(model.Name), $"Food {model.Name} alredy exists");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -50,6 +55,55 @@ namespace Calories.Controllers
             Food created = await _calories.AddFoodAsync(who, model.Name, model.Calories, model.Unit);
 
             return RedirectWithMessage(nameof(Index), "Food {0} was created", created.Name);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> EditAsync(long? id)
+        {
+            if (id == null)
+            {
+                return RedirectWithMessage(nameof(Index), "Missing id");
+            }
+            Food current = await _calories.GetFoodAsync(id.Value);
+            if (current == null)
+            {
+                return RedirectWithMessage(nameof(Index), "Can't find food with id {0}", id.Value);
+            }
+
+            return View(new FoodVM
+            {
+                Calories = current.Calories,
+                Name = current.Name,
+                Unit = current.Unit,
+            });
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditAsync(long? id, FoodVM model)
+        {
+            if (id == null)
+            {
+                return RedirectWithMessage(nameof(Index), "Missing id");
+            }
+            Food current = await _calories.GetFoodAsync(id.Value);
+            if (current == null)
+            {
+                return RedirectWithMessage(nameof(Index), "Can't find food with id {0}", id.Value);
+            }
+
+            if (model.Name != current.Name && await _calories.FoodExistsAsync(model.Name))
+            {
+                ModelState.AddModelError(nameof(model.Name), $"Food {model.Name} alredy exists");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await _calories.EditFoodAsync(current, model.Name, model.Calories, model.Unit);
+
+            return RedirectWithMessage(nameof(Index), "Food {0} has been updated", current.Name);
         }
     }
 }

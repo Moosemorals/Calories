@@ -35,6 +35,10 @@ namespace Calories.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Eat([Bind("ID, Count")] EatVM model)
         {
+            if (model.Count == 0)
+            {
+                model.Count = 1;
+            }
 
             Food food = await _calories.GetFoodAsync(model.ID);
             if (food == null)
@@ -46,7 +50,7 @@ namespace Calories.Controllers
 
             await _calories.AddMealAsync(who, food, model.Count);
 
-            return RedirectWithMessage("Index", "You have eaten {0}", food.Name);
+            return RedirectWithMessage("Index", "You have eaten {0} {1}{2}", model.Count, food.Name, model.Count == 1 ? "": "s");
         }
     }
 }

@@ -13,6 +13,7 @@
             <th>@Html.DisplayNameFor(x => x.Name)</th>
             <th>@Html.DisplayNameFor(x => x.Calories)</th>
             <th>@Html.DisplayNameFor(x => x.Unit)</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +23,7 @@
                 <td>@Html.DisplayFor(x => f.Name)</td>
                 <td>@Html.DisplayFor(x => f.Calories)</td>
                 <td>@Html.DisplayFor(x => f.Unit)</td>
+                <td><a asp-action="Edit" asp-route-id="@f.ID">Edit</a></td>
             </tr>
         }
     </tbody>

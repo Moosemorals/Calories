@@ -1,10 +1,10 @@
 ﻿@model FoodVM
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Create Food";
+    ViewBag.Title = "Edit Food";
 }
 
-<form asp-controller="Food" asp-action="Create" autocomplete="off">
+<form method="post" autocomplete="off">
 
     <dl>
         <dt><label asp-for="Name"></label></dt>
@@ -12,18 +12,17 @@
             <span asp-validation-for="Name"></span>
             <input asp-for="Name" />
         </dd>
-        <dt><label asp-for="Calories"></label></dt>
-        <dd>
+        <dt> 
             <span asp-validation-for="Calories"></span>
-            <input asp-for="Calories" />
-        </dd>
+            <label asp-for="Calories"></label>
+        </dt>
+        <dd><input asp-for="Calories" /></dd>
 
         <dt><label asp-for="Unit"></label></dt>
-        <dd>
+        <dd> 
             <span asp-validation-for="Unit"></span>
             <select asp-for="Unit" asp-items="Html.GetEnumSelectList<Unit>()"></select>
-
         </dd>
     </dl>
-    <button type="submit">Create food</button>
+    <button type="submit">Save changes</button>
 </form>
