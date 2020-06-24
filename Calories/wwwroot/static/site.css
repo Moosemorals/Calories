@@ -25,11 +25,14 @@ h1 {
     padding: 8px;
 }
 
+.eat-count {
+    width: 3em;
+}
+
 .text-right {
     text-align: right;
 }
 
 .table-striped tbody tr:nth-child(odd) {
     background-color: #eeddee;
-
 }

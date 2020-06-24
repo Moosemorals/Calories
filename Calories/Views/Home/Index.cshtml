@@ -10,7 +10,7 @@
     {
         <div class="eat-item">
             <form asp-action="Eat" asp-controller="Home" class="form-eat">
-                <input name="Count" type="number" size="3" placeholder="@f.Calories" />
+                <input name="Count" type="number" class="eat-count" placeholder="@f.Calories" />
                 <button name="ID" value="@f.ID">@f.Name</button>
             </form>
         </div>
@@ -18,7 +18,7 @@
 </fieldset>
 
 <fieldset>
-    <legend>Last 24 hours</legend>
+    <legend>@DateTimeOffset.Now.ToString("dddd dd MMMM yyyy")</legend>
     <table class="table-striped">
         <thead>
             <tr>
