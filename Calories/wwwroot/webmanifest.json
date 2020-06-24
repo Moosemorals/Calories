@@ -1,0 +1,17 @@
+{
+
+  "background_color": "#FF0F8FF",
+  "description": "Really basic calorie counter",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/static/icon.svg",
+      "sizes": "32x32",
+      "type": "image/svg"
+    }
+  ],
+  "name": "Basic Calorie Counter",
+  "short_name": "Calories",
+  "start_url": "/Home/Index"
+}
+

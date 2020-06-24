@@ -1,6 +1,7 @@
 ﻿:root {
     --highlight-dark: #cfd6e8;
     --highlight-light: #e3e3ff;
+    --background: aliceblue;
 }
 
 html {
@@ -15,7 +16,7 @@ html {
 body {
     font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
     color: black;
-    background-color: aliceblue;
+    background-color: var(--background);
 }
 
 h1 {
