@@ -5,13 +5,15 @@ using Calories.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Calories.Controllers
 {
     [Authorize(Roles = Static.RoleFood)]
     public class HomeController : BaseController
-    { 
+    {
         private readonly CalorieService _calories;
         private readonly AuthService _auth;
 
@@ -24,10 +26,12 @@ namespace Calories.Controllers
         public async Task<IActionResult> IndexAsync()
         {
             Person who = await _auth.GetCurrentPersonAsync(User);
+
+
             return View(new IndexVM
             {
                 Foods = _calories.GetFoods(),
-                Meals = _calories.GetMeals(who, TimeSpan.FromDays(1)),
+                Meals = await _calories.GetTodaysMealsAsync(who),
                 Who = who,
             });
         }
@@ -50,7 +54,7 @@ namespace Calories.Controllers
 
             await _calories.AddMealAsync(who, food, model.Count);
 
-            return RedirectWithMessage("Index", "You have eaten {0} {1}{2}", model.Count, food.Name, model.Count == 1 ? "": "s");
+            return RedirectWithMessage("Index", "You have eaten {0} {1}{2}", model.Count, food.Name, model.Count == 1 ? "" : "s");
         }
 
 
@@ -62,10 +66,10 @@ namespace Calories.Controllers
                 return RedirectWithMessage("Index", "Missing ID parameter");
             }
 
-            Meal meal = await _calories.GetMealAsync(id.Value);
-            if (meal == null)
+            Food food = await _calories.GetFoodAsync(id.Value);
+            if (food == null)
             {
-                return RedirectWithMessage("Index", "Can't find meal with id {0}", id.Value);
+                return RedirectWithMessage("Index", "Can't find food with id {0}", id.Value);
             }
 
             return View();
@@ -79,19 +83,23 @@ namespace Calories.Controllers
                 return RedirectWithMessage("Index", "Missing ID parameter");
             }
 
-            Meal meal = await _calories.GetMealAsync(id.Value);
-            if (meal == null)
+            Food toDelete = await _calories.GetFoodAsync(id.Value);
+
+            if (toDelete == null)
             {
-                return RedirectWithMessage("Index", "Can't find meal with id {0}", id.Value);
+                return RedirectWithMessage("Index", "Can't find food with id {0}", id.Value);
             }
 
-            long count = meal.Count;
-            string foodName = meal.Food.Name;
-            Unit foodUnit = meal.Food.Unit;
+            Person who = await _auth.GetCurrentPersonAsync(User);
 
-            await _calories.DeleteMeal(meal);
+            if (await _calories.DeleteMealAsync(who, toDelete))
+            {
+                return RedirectWithMessage("Index", "Your {0} was deleted", toDelete.Name);
+            }
 
-            return RedirectWithMessage("Index", "Your meal of {0} {1} of {2} has been deleted", count, foodUnit, foodName);
+            return RedirectWithMessage("Index", "Couldn't find a {0} to delete", toDelete.Name);
+
+
         }
 
 
